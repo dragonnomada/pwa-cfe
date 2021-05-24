@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Ej 3</title>
+
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <h1>Ejercicio 3 de PWA</h1>
+
+    <img src="https://imagenes.20minutos.es/files/og_thumbnail/uploads/imagenes/2021/05/20/the-batman.jpeg" >
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("worker.js").then((registration) => {
+                console.log("[APP] Se ha registrado el service worker");
+            });
+        }
+    </script>
+</body>
+</html>

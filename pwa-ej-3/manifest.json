@@ -1,0 +1,17 @@
+{
+    "name": "Ej3 PWA",
+    "short_name": "Ej3PWA",
+    "description": "Ejercicio 3 PWA",
+    "icons": [
+        {
+            "src": "icons/chrome/chrome-installprocess-128-128.png",
+            "sizes": "128x128"
+        }
+    ],
+    "display": "fullscreen",
+    "orientation": "portrait",
+    "start_url": "/?from=pwa",
+    "scope": "/",
+    "theme_color": "red",
+    "background_color": "green"
+}

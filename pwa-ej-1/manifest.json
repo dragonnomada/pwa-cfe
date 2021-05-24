@@ -1,0 +1,25 @@
+{
+  "name": "Todo App PWA",
+  "short_name": "TodoAppPWA",
+  "description": "Esta aplicación guarda cosas por hacer en una lista",
+  "icons": [
+    {
+      "src": "icons/chrome/chrome-extensionmanagementpage-48-48.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "icons/chrome/chrome-favicon-16-16.png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "icons/chrome/chrome-installprocess-128-128.png",
+      "sizes": "128x128"
+    }
+  ],
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "theme_color": "magenta",
+  "background_color": "#fff",
+  "start_url": "/?from=pwa",
+  "scope": "/"
+}
