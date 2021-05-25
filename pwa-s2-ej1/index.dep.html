@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrategias de Caché</title>
+</head>
+<body>
+    
+    <script>
+        function app() {
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("worker.js").then(registration => {
+                    // CONTINUA
+                });
+            }
+        }
+
+        app();
+    </script>
+
+    <script>
+        async function app() {
+            if ("serviceWorker" in navigator) {
+                const registration = await navigator.serviceWorker.register("worker.js");
+
+                // CONTINUA
+            }
+        }
+
+        app().catch(console.error);
+    </script>
+
+</body>
+</html>

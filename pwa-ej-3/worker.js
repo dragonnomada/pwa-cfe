@@ -37,7 +37,7 @@ this.addEventListener("fetch", (event) => {
     
                 // FETCH lanza la petición online
                 return fetch(request).then((response) => {
-                    console.log(response);
+                    console.log(request, response);
                     if (!response.ok && response.status !== 0) {
                         console.log("[Worker] Falló la petición, no se pudo obtener el recurso", event.request.url);
                         // ???
