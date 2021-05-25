@@ -63,37 +63,39 @@ this.addEventListener("activate", async event => {
 this.addEventListener("fetch", async event => {
     console.log("[Worker] Procesando petición...", event.request.url);
 
-    const cache = await caches.open(cacheName);
+    const resolveFetch = async () => {
+        const cache = await caches.open(cacheName);
 
-    console.log("[Worker] Buscando petición en caché...");
+        console.log("[Worker] Buscando petición en caché...");
 
-    const cacheResponse = await cache.match(event.request);
+        const cacheResponse = await cache.match(event.request);
 
-    if (cacheResponse) {
-        console.log("[Worker] El recurso si está en caché");
+        if (cacheResponse) {
+            console.log("[Worker] El recurso si está en caché");
 
-        event.respondWith(cacheResponse);
+            return cacheResponse;
+        }
 
-        return;
-    }
+        // El recurso no está en caché
 
-    // El recurso no está en caché
+        console.log("[Worker] El recurso no está en caché, intentando descargarlo...", event.request.url);
 
-    console.log("[Worker] El recurso no está en caché, intentando descargarlo...", event.request.url);
+        try {
+            const response = await fetch(event.request);
 
-    try {
-        const response = await fetch(event.request); 
-        
-        console.log("[Worker] El recurso ha sido descargado");
+            console.log("[Worker] El recurso ha sido descargado");
 
-        // TODO: Determinar si la respuesta descargada se retiene en caché
+            // TODO: Determinar si la respuesta descargada se retiene en caché
 
-        event.respondWith(response);
+            return response;
 
-        return;
-    } catch(error) {
-        console.log("[Worker] Error al descargar el recurso", error);
-        // TODO: Crear una respuesta dinámica
-        throw new Error(error);
-    }
+            return;
+        } catch (error) {
+            console.log("[Worker] Error al descargar el recurso", error);
+            // TODO: Crear una respuesta dinámica
+            throw new Error(error);
+        }
+    };
+
+    await event.respondWith(resolveFetch());
 });
