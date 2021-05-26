@@ -30,7 +30,16 @@ app.post("/form/demo", (request, response) => {
     console.log(request.fields);
 
     const { username, password } = request.fields;
-
+    
+    if (!(/^[a-z\d_-]+$/.test(username))) {
+        response.send({
+            success: false,
+            code: 123,
+            error: `El nombre de usuario [${username}] no es válido (minúsculas, números y guiones)`
+        });
+        return;
+    }
+    
     const email = `${username}@cfe.com.mx`;
 
     const data = {
@@ -43,7 +52,13 @@ app.post("/form/demo", (request, response) => {
         if (error) {
             response.send({
                 success: false,
-                error: `${error}`
+                error: `No se puede insertar el registro ${email} (${username}) en la base de datos`,
+                formId: Math.random().toString(32).slice(2),
+                formData: {
+                    username,
+                    password
+                },
+                originalError: `${error}`
             });
             return;
         }
