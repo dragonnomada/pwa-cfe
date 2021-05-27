@@ -166,6 +166,26 @@ async function insertFormFieldValue(id_form, id_record, id_form_field, value) {
 async function insertFormRecord(formSchema, fields) {
     // TODO: Insertar el registro en el formulario (bd)
 
+    // 0. VALIDAR QUE LOS CAMPOS SEAN CORRECTOS
+    for (let [fieldName, fieldValue] of Object.entries(fields)) {
+        const [field] = formSchema.fields.filter(({ name }) => name === fieldName);
+
+        console.log({ field });
+
+        if (!field) {
+            console.log(`El campo ${fieldName} no existe`);
+            continue;
+        }
+
+        if (field.required && !fieldValue.trim()) {
+            throw new Error(`El campo ${fieldName} es obligatorio`);
+        }
+
+        if (field.pattern && !(new RegExp(field.pattern).test(fieldValue))) {
+            throw new Error(`El campo ${fieldName} no cumple con el patrón (${field.pattern}) [${fieldValue}]`);
+        }
+    }
+
     // 1. CREAR UN REGISTRO (RECORD) (SESIÓN / SUBMIT)
 
     const recordId = await createRecord(formSchema.id_form);
@@ -185,6 +205,8 @@ async function insertFormRecord(formSchema, fields) {
             console.log(`El campo ${fieldName} no existe`);
             continue;
         }
+
+        // EL CAMPO YA FUE VALIDADO ARRBIBA
 
         // field.id_form_field
         const formRegisterInsertedId = await insertFormFieldValue(formSchema.id_form, recordId, field.id_form_field, fieldValue);

@@ -98,6 +98,11 @@ async function submitForm(formData) {
     return true;
 }
 
+async function resetForm(formNode, formSchema) {
+    const newFormContainerNode = await buildForm(formSchema);
+    formNode.parentElement.replaceChild(newFormContainerNode, formNode);
+}
+
 async function buildForm(formSchema) {
     const formNode = document.createElement("form");
 
@@ -150,9 +155,13 @@ async function buildForm(formSchema) {
         btnReset.disabled = true;
         btnSubmit.disabled = true;
 
-        await submitForm(formData).catch(error => {
+        const success = await submitForm(formData).catch(error => {
             console.warn(`Error al enviar el formulario`, error);
         });
+
+        if (success) {
+            await resetForm(formNode, formSchema);
+        }
 
         btnReset.disabled = false;
         btnSubmit.disabled = false;
@@ -166,10 +175,9 @@ async function buildForm(formSchema) {
     });
 
     btnReset.addEventListener("click", async event => {
+        btnReset.disabled = true;
         console.log("RESETEANDO...", formSchema);
-        const newFormContainerNode = await buildForm(formSchema);
-        console.log(newFormContainerNode, formNode);
-        formNode.parentElement.replaceChild(newFormContainerNode, formNode);
+        await resetForm(formNode, formSchema);
     });
 
     btnSubmit.addEventListener("click", event => {
