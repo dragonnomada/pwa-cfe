@@ -6,7 +6,7 @@ this.addEventListener("push", async event => {
 
     const sendNotification = async () => {
         await this.registration.showNotification("Título CFE PWA", {
-            body: "Hola mundo CFE"
+            body: "Hola mundo CFE" // Obtener el mensaje de alguna forma (postMessage / sincrozación)
         });
     };
 

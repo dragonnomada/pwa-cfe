@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App</title>
+
+    <style>
+        .thumbnail {
+            width: 200px;
+            height: 200px;
+            background-image: url("thumbnail.png");
+        }
+
+        @media screen and (min-width: 600px) {
+            .thumbnail {
+                width: 400px;
+                height: 400px;
+                background-image: url("thumbnail@2x.png");
+            }
+        }
+        
+        @media screen and (min-width: 1024px) {
+            .thumbnail {
+                width: 800px;
+                height: 800px;
+                background-image: url("thumbnail@4x.png");
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="banner">
+        <img src="banner.png" alt="">
+    </div>
+
+    <div class="thumbnail"></div>
+
+    <script>
+        let resolution = "@1x";
+
+        window.addEventListener("resize", () => {
+            const width = document.body.clientWidth; // Ancho de pantalla
+
+            // TODO: Determinar en que tipo cae
+            if (width < 600) {
+                resolution = "@1x";
+            } else if (width < 1024) {
+                resolution = "@2x";
+            } else {
+                resolution = "@4x";
+            }
+        });
+
+        // IDEA: Sincronizar (postMessage) la resolución de pantalla a un worker
+        // para que el worker automáticamente realice las peticiones con la
+        // resolución adecuada
+        // Ejemplo: TODAS LAS PETICIONES *.png cambiarlas por *${resolution}.png
+        // banner.png -> banner@4x.png
+        async function getPicture() {
+            const response = await fetch(`banner${resolution}.png`);
+
+            // TODO: Hacer lo que se desee con la imagen
+        }
+
+    </script>
+
+</body>
+</html>

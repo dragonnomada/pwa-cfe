@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Static Template</title>
+
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body>
+    <div>
+      <div>
+        <h1>Todo App Progressive Web Application</h1>
+      </div>
+    </div>
+
+    <script>
+      // Verificación de existencia
+      if ("serviceWorker" in navigator) {
+        console.log("Si tenemos service worker disponible");
+
+        navigator.serviceWorker.register("worker.js").then((registration) => {
+          console.log("Se ha registrado el service worker");
+          if (registration.active) {
+            console.log("El worker está activo");
+
+            if (registration.waiting) {
+              console.log("El worker está esperando");
+            }
+
+            if (registration.installing) {
+              console.log("El worker se está instalando");
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
